@@ -15,21 +15,40 @@ import {Categories} from '../constants';
 import Slider from 'react-native-slider';
 
 const Setting = ({navigation}) => {
+  const [editUserName, setEditUserName] = useState(false);
+  const [editLocal, setEditLocal] = useState(false);
+  const [editEmail, setEditEmail] = useState(false);
   const [username, setUserName] = useState('Hai Euro');
   const [local, setLocal] = useState('Ha Noi');
   const [email, setEmail] = useState('haieuro@gmail.com');
+  const [notice, setNotice] = useState(true);
+  const [newsletter, setNewLetter] = useState(false);
+  const [budget, setBudget] = useState(50);
+  const [moncap, setMonCap] = useState(100);
   const handlerEdit = (value, index) => {
     console.log(value);
     console.log(index);
 
     if (index === 'a') {
-      console.log('1');
+      if (editUserName === false) {
+        setEditUserName(true);
+      } else {
+        setEditUserName(false);
+      }
     }
     if (index === 'b') {
-      console.log('2');
+      if (editLocal === false) {
+        setEditLocal(true);
+      } else {
+        setEditLocal(false);
+      }
     }
     if (index === 'c') {
-      console.log('3');
+      if (editEmail === false) {
+        setEditEmail(true);
+      } else {
+        setEditEmail(false);
+      }
     }
   };
   return (
@@ -43,28 +62,57 @@ const Setting = ({navigation}) => {
           <View>
             <Text style={styles.lable}>Username</Text>
             <View style={styles.row}>
-              <Text style={styles.value}>{username}</Text>
-              {/* <TextInput style={{flex:1,borderBottomWidth:0.5}}/> */}
+              {editUserName === false ? (
+                <Text style={styles.value}>{username}</Text>
+              ) : (
+                <TextInput
+                  onChangeText={value => setUserName(value)}
+                  value={username}
+                  style={{flex: 1, borderBottomWidth: 0.5}}
+                />
+              )}
               <TouchableOpacity onPress={() => handlerEdit('usename', 'a')}>
-                <Text style={styles.edit}>Edit</Text>
+                <Text style={styles.edit}>
+                  {editUserName === false ? 'Edit' : 'Ok'}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
           <View>
             <Text style={styles.lable}>Location</Text>
             <View style={styles.row}>
-              <Text style={styles.value}>{local}</Text>
+              {editLocal === false ? (
+                <Text style={styles.value}>{local}</Text>
+              ) : (
+                <TextInput
+                  onChangeText={value => setLocal(value)}
+                  value={local}
+                  style={{flex: 1, borderBottomWidth: 0.5}}
+                />
+              )}
               <TouchableOpacity onPress={() => handlerEdit('local', 'b')}>
-                <Text style={styles.edit}>Edit</Text>
+                <Text style={styles.edit}>
+                  {editLocal === false ? 'Edit' : 'Ok'}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
           <View>
             <Text style={styles.lable}>Email</Text>
             <View style={styles.row}>
-              <Text style={styles.value}>{email}</Text>
+              {editEmail === false ? (
+                <Text style={styles.value}>{email}</Text>
+              ) : (
+                <TextInput
+                  onChangeText={value => setEmail(value)}
+                  value={email}
+                  style={{flex: 1, borderBottomWidth: 0.5}}
+                />
+              )}
               <TouchableOpacity onPress={() => handlerEdit('email', 'c')}>
-                <Text style={styles.edit}>Edit</Text>
+                <Text style={styles.edit}>
+                  {editEmail === false ? 'Edit' : 'Ok'}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -73,8 +121,10 @@ const Setting = ({navigation}) => {
           <View>
             <Text style={styles.lable}>Budget</Text>
             <Slider
+              step={10}
+              onValueChange={value => setBudget(value)}
               maximumValue={200}
-              value={50}
+              value={budget}
               trackStyle={{
                 height: 7,
                 borderRadius: 5,
@@ -91,13 +141,15 @@ const Setting = ({navigation}) => {
               maximumTrackTintColor="#9DA3B4"
               style={{width: '100%'}}
             />
-            <Text style={{textAlign: 'right', color: 'gray'}}>$1.000</Text>
+            <Text style={{textAlign: 'right', color: 'gray'}}>${budget}</Text>
           </View>
           <View>
             <Text style={styles.lable}>Monthly Cap</Text>
             <Slider
+              step={10}
+              onValueChange={value => setMonCap(value)}
               maximumValue={200}
-              value={70}
+              value={moncap}
               trackStyle={{
                 height: 7,
                 borderRadius: 5,
@@ -115,17 +167,27 @@ const Setting = ({navigation}) => {
               maximumTrackTintColor="#9DA3B4"
               style={{width: '100%'}}
             />
-            <Text style={{textAlign: 'right', color: 'gray'}}>$5.000</Text>
+            <Text style={{textAlign: 'right', color: 'gray'}}>${moncap}</Text>
           </View>
         </View>
         <View style={{flex: 4, paddingVertical: 20}}>
           <View style={styles.row}>
             <Text style={styles.lable}>Notifications</Text>
-            <Switch value={true} trackColor="#0AC4BA" />
+            <Switch
+              trackColor={{true: '#0AC4BA', false: 'grey'}}
+              value={notice}
+              style={{transform: [{scaleX: 0.8}, {scaleY: 0.8}]}}
+              onValueChange={() => setNotice(!notice)}
+            />
           </View>
           <View style={styles.row}>
             <Text style={styles.lable}>Newsletters</Text>
-            <Switch />
+            <Switch
+              trackColor={{true: '#0AC4BA', false: 'grey'}}
+              value={newsletter}
+              style={{transform: [{scaleX: 0.8}, {scaleY: 0.8}]}}
+              onValueChange={() => setNewLetter(!newsletter)}
+            />
           </View>
         </View>
       </View>

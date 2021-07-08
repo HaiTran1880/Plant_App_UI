@@ -21,12 +21,12 @@ const Forgotpassword = ({navigation}) => {
       'New Password was sent',
       'Please check your email',
       [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
       ],
       {cancelable: false},
     );
